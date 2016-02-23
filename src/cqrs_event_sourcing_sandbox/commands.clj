@@ -1,8 +1,9 @@
 (ns cqrs-event-sourcing-sandbox.commands
-  (:require [cqrs-event-sourcing-sandbox.events :refer [map->NewUserRegisteredEvent map->RedisEventStore
-                                                        retrieve-event-stream append-events apply-event]]))
+  (:require [cqrs-event-sourcing-sandbox.events :refer [map->NewUserRegisteredEvent map->UserProfileImageUpdatedEvent
+                                                        map->RedisEventStore retrieve-event-stream append-events apply-event]]))
 
 (defrecord RegisterNewUserCommand [aggregate_id first_name last_name dob gender])
+(defrecord UpdateUserProfileImageCommand [aggregate_id img_url])
 
 (defprotocol CommandHandler
   (coerce [command] "Validate command")
@@ -10,12 +11,16 @@
 
 (extend-protocol CommandHandler
   RegisterNewUserCommand
-  (coerce [command]
-    command)
+  (coerce [command] command)
   (process [command state]
-    (if (empty? state)
-      [(map->NewUserRegisteredEvent command)]
-      (throw (Exception. "Cannot seed new user with existing state.")))))
+    (when (empty? state)
+      [(map->NewUserRegisteredEvent command)]))
+  UpdateUserProfileImageCommand
+  (coerce [command] command)
+  (process [command state]
+    (if-let [_ (seq state)]
+      [(map->UserProfileImageUpdatedEvent command)]
+      (throw (Exception. "Cannot update non existing user")))))
 
 (defn handle-command [command]
   (let [event-store (map->RedisEventStore {})

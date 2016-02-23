@@ -20,8 +20,13 @@
         (car/rpush (str "event::" aggregate-id "::stream") e)))))
 
 (defrecord NewUserRegisteredEvent [aggregate_id first_name last_name dob gender])
+(defrecord UserProfileImageUpdatedEvent [aggregate_id img_url])
 
 (defmulti apply-event (fn [state event] (class event)))
 
 (defmethod apply-event NewUserRegisteredEvent [_ event]
   (assoc (map->User event) :version 1 :created_at (.getTime (Date.))))
+
+(defmethod apply-event UserProfileImageUpdatedEvent [state event]
+  (-> (assoc state :img_url (:img_url event))
+      (update-in [:version] inc)))
