@@ -1,8 +1,8 @@
-(ns cqrs-event-sourcing-sandbox.commands-test
+(ns cqrs-event-sourcing-sandbox.command.commands-test
   (:require [clojure.test :refer :all]
-            [cqrs-event-sourcing-sandbox.commands :refer [->RegisterNewUserCommand ->UpdateUserProfileImageCommand
-                                                          process handle-command retrieve-user]]
-            [cqrs-event-sourcing-sandbox.events :refer [->NewUserRegisteredEvent apply-event]])
+            [cqrs-event-sourcing-sandbox.command.commands :refer [->RegisterNewUserCommand ->UpdateUserProfileImageCommand
+                                                                  process handle-command retrieve-user]]
+            [cqrs-event-sourcing-sandbox.event.events :refer [->NewUserRegisteredEvent apply-event]])
   (:import (java.util UUID)))
 
 

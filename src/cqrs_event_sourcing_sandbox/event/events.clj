@@ -1,5 +1,5 @@
-(ns cqrs-event-sourcing-sandbox.events
-  (:require [cqrs-event-sourcing-sandbox.domains :refer :all]
+(ns cqrs-event-sourcing-sandbox.event.events
+  (:require [cqrs-event-sourcing-sandbox.domain.domains :refer :all]
             [taoensso.carmine :as car :refer (wcar)])
   (:import (java.util Date)))
 

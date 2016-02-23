@@ -1,5 +1,5 @@
-(ns cqrs-event-sourcing-sandbox.commands
-  (:require [cqrs-event-sourcing-sandbox.events :refer [map->NewUserRegisteredEvent map->UserProfileImageUpdatedEvent
+(ns cqrs-event-sourcing-sandbox.command.commands
+  (:require [cqrs-event-sourcing-sandbox.event.events :refer [map->NewUserRegisteredEvent map->UserProfileImageUpdatedEvent
                                                         map->RedisEventStore retrieve-event-stream append-events apply-event]]))
 
 (defrecord RegisterNewUserCommand [aggregate_id first_name last_name dob gender])
